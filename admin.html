@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - ACME Startup{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Admin Dashboard</h1>
+        <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-danger">Logout</a>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="row mb-5">
+        <div class="col-md-3">
+            <div class="card border-0 bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Registrations</h5>
+                    <p class="display-4">{{ registrations|length }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Page Views</h5>
+                    <p class="display-4">{{ stats.page_views }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Form Submissions</h5>
+                    <p class="display-4">{{ stats.form_submissions }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 bg-warning text-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Form Errors</h5>
+                    <p class="display-4">{{ stats.form_errors }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Waitlist Table -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white">
+            <h3 class="mb-0">Waitlist Registrations</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Registration Date</th>
+                            <th>IP Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if registrations %}
+                            {% for reg in registrations %}
+                            <tr>
+                                <td>{{ reg.full_name }}</td>
+                                <td>{{ reg.email }}</td>
+                                <td>{{ reg.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>{{ reg.ip_address }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">No registrations yet.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
